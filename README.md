@@ -9,6 +9,14 @@ This python package scrapes all the internships for an IT engineer from [外資�
 
 I'm searching for a job. However, I'm a Ph.D student and have to do research too. I don't want to spend much time on job hunting. In order to decrease time for job hunting, I have decided to automate job events check by web scraping.
 
+## Prerequisites
+
+This package needs WebDriver for Google Chrome. If you use Mac, you can install it by Homebrew.
+
+```shell
+$ brew install chromedriver
+```
+
 ## Installation
 
 ```shell
