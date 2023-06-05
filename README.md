@@ -1,2 +1,2 @@
 # job-scraper
-Python package for scraping job offering
+Python package for scraping job events
