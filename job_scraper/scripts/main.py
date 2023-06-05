@@ -19,7 +19,7 @@ from job_scraper.parse import parse_event_info
     help="Path to output file.",
 )
 def main(output_filename) -> None:
-    """Scrape job events from a given website"""
+    """Scrape job events from a website, https://gaishishukatsu.com/"""
     logging.basicConfig(level=logging.INFO)
 
     # Configure browser
