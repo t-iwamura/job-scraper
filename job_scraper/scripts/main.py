@@ -15,6 +15,19 @@ from tqdm import tqdm
 from job_scraper.parse import parse_company_info, parse_event_info
 
 MAX_WAIT_SEC = 10
+INDUSTRY_LIST = [
+    "consultant",
+    "gaishi_finance",
+    "nikkei_finance",
+    "gaishi_maker",
+    "trading",
+    "civil_servant",
+    "it_service",
+    "nikkei_maker",
+    "media",
+    "construction",
+]
+INDUSTRY_IDX = {industry: i for i, industry in enumerate(INDUSTRY_LIST)}
 
 
 @click.group()
@@ -24,12 +37,18 @@ def main() -> None:
 
 @main.command()
 @click.option(
+    "--industry",
+    type=click.Choice(INDUSTRY_LIST, case_sensitive=False),
+    required=True,
+    help="Industry which you are interested in.",
+)
+@click.option(
     "--output_filename",
     default="company_info.csv",
     show_default=True,
     help="Path to output file.",
 )
-def company(output_filename) -> None:
+def company(industry, output_filename) -> None:
     """Scrape company information from a website, https://gaishishukatsu.com/"""
     logging.basicConfig(level=logging.INFO)
 
@@ -44,24 +63,10 @@ def company(output_filename) -> None:
     browser.get(url)
     time.sleep(1)
 
-    industry_list = [
-        "consultant",
-        "gaishi_finance",
-        "nikkei_finance",
-        "gaishi_maker",
-        "trading",
-        "civil_servant",
-        "it_service",
-        "nikkei_maker",
-        "media",
-        "construction",
-    ]
-    industry_idx = {industry: i for i, industry in enumerate(industry_list)}
-
     # Choose companys in the given industry
     industry_checkbox_block = browser.find_elements(
         By.CSS_SELECTOR, "div.sc-EhVdS.louMgR"
-    )[industry_idx["it_service"]]
+    )[INDUSTRY_IDX[industry]]
     industry_checkbox = industry_checkbox_block.find_element(By.TAG_NAME, "input")
     _ = WebDriverWait(browser, MAX_WAIT_SEC).until(
         expected_conditions.element_to_be_clickable(industry_checkbox)
