@@ -48,7 +48,8 @@ def main() -> None:
     show_default=True,
     help="Path to output file.",
 )
-def company(industry, output_filename) -> None:
+@click.option("--gui/--no-gui", help="Whether to display a browser or not.")
+def company(industry, output_filename, gui) -> None:
     """Scrape company information from a website, https://gaishishukatsu.com/"""
     logging.basicConfig(level=logging.INFO)
 
@@ -56,6 +57,8 @@ def company(industry, output_filename) -> None:
     options = Options()
     preference = {"profile.default_content_setting_values.notifications": 2}
     options.add_experimental_option("prefs", preference)
+    if not gui:
+        options.add_argument("--headless=new")
     browser = Chrome(options=options)
 
     logging.info(" Launching web browser...")
@@ -109,7 +112,8 @@ def company(industry, output_filename) -> None:
     show_default=True,
     help="Path to output file.",
 )
-def intern(output_filename) -> None:
+@click.option("--gui/--no-gui", help="Whether to display a browser or not.")
+def intern(output_filename, gui) -> None:
     """Scrape job events from a website, https://gaishishukatsu.com/"""
     logging.basicConfig(level=logging.INFO)
 
@@ -117,6 +121,8 @@ def intern(output_filename) -> None:
     options = Options()
     preference = {"profile.default_content_setting_values.notifications": 2}
     options.add_experimental_option("prefs", preference)
+    if not gui:
+        options.add_argument("--headless=new")
     browser = Chrome(options=options)
 
     logging.info(" Launching web browser...")
