@@ -48,8 +48,9 @@ def main() -> None:
     show_default=True,
     help="Path to output file.",
 )
+@click.option("--login/--no-login", help="Whether to login to the website or not.")
 @click.option("--gui/--no-gui", help="Whether to display a browser or not.")
-def company(industry, output_filename, gui) -> None:
+def company(industry, output_filename, login, gui) -> None:
     """Scrape company information from a website, https://gaishishukatsu.com/"""
     logging.basicConfig(level=logging.INFO)
 
@@ -66,7 +67,26 @@ def company(industry, output_filename, gui) -> None:
     browser.get(url)
     time.sleep(1)
 
-    # Choose companys in the given industry
+    if login:
+        # Visit login page
+        link_to_login_page = browser.find_element(By.XPATH, "//a[@href='/login']")
+        browser.execute_script("arguments[0].click();", link_to_login_page)
+
+        email_address = input("Enter email address: ")
+        password = input("Enter password: ")
+
+        # Perform login
+        email_address_field = browser.find_element(By.NAME, "data[GsUser][email]")
+        email_address_field.send_keys(email_address)
+        password_field = browser.find_element(By.NAME, "data[GsUser][password]")
+        password_field.send_keys(password)
+        login_button = browser.find_element(
+            By.CLASS_NAME, "_btn._btn-orange._btn-lg.login-button"
+        )
+        browser.execute_script("arguments[0].click();", login_button)
+        time.sleep(1)
+
+    # Choose companies in the given industry
     industry_checkbox_block = browser.find_elements(
         By.CSS_SELECTOR, "div.sc-EhVdS.louMgR"
     )[INDUSTRY_IDX[industry]]
