@@ -23,6 +23,7 @@ setup(
     install_requires=[
         "beautifulsoup4",
         "selenium",
+        "tqdm",
         "click",
     ],
     entry_points={
