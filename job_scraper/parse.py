@@ -35,6 +35,8 @@ def parse_company_info(company_url: str, browser: WebDriver) -> str:
         str: Comma seperated company information.
     """
     browser.get(company_url)
+    time.sleep(5)
+
     soup = BeautifulSoup(browser.page_source, "lxml")
     try:
         company_name = soup.find("h1", class_="company-header-title-companyName").text
@@ -63,7 +65,6 @@ def parse_company_info(company_url: str, browser: WebDriver) -> str:
             official_website,
         ]
     )
-    time.sleep(1)
 
     return company_info_string.replace("\n", "")
 
