@@ -4,21 +4,107 @@ import time
 from pathlib import Path
 
 import click
+from bs4 import BeautifulSoup
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+from tqdm import tqdm
 
-from job_scraper.parse import parse_event_info
+from job_scraper.parse import parse_company_info, parse_event_info
+
+MAX_WAIT_SEC = 10
 
 
-@click.command()
+@click.group()
+def main() -> None:
+    pass
+
+
+@main.command()
+@click.option(
+    "--output_filename",
+    default="company_info.csv",
+    show_default=True,
+    help="Path to output file.",
+)
+def company(output_filename) -> None:
+    """Scrape company information from a website, https://gaishishukatsu.com/"""
+    logging.basicConfig(level=logging.INFO)
+
+    # Configure browser
+    options = Options()
+    preference = {"profile.default_content_setting_values.notifications": 2}
+    options.add_experimental_option("prefs", preference)
+    browser = Chrome(options=options)
+
+    logging.info(" Launching web browser...")
+    url = "https://gaishishukatsu.com/company"
+    browser.get(url)
+    time.sleep(1)
+
+    industry_list = [
+        "consultant",
+        "gaishi_finance",
+        "nikkei_finance",
+        "gaishi_maker",
+        "trading",
+        "civil_servant",
+        "it_service",
+        "nikkei_maker",
+        "media",
+        "construction",
+    ]
+    industry_idx = {industry: i for i, industry in enumerate(industry_list)}
+
+    # Choose companys in the given industry
+    industry_checkbox_block = browser.find_elements(
+        By.CSS_SELECTOR, "div.sc-EhVdS.louMgR"
+    )[industry_idx["it_service"]]
+    industry_checkbox = industry_checkbox_block.find_element(By.TAG_NAME, "input")
+    _ = WebDriverWait(browser, MAX_WAIT_SEC).until(
+        expected_conditions.element_to_be_clickable(industry_checkbox)
+    )
+    browser.execute_script("arguments[0].click();", industry_checkbox)
+    time.sleep(1)
+
+    # Create a list of URLs about the found companies
+    soup = BeautifulSoup(browser.page_source, "html.parser")
+    company_links = []
+    company_links += soup.find_all("a", class_="sc-biHcdI fydcZg")
+    company_links += soup.find_all("a", class_="sc-hJFzDP fusNkn")
+    company_links += soup.find_all("a", class_="sc-bA-DUxO fLGPcp")
+    company_links += soup.find_all("a", class_="sc-gJjCBC jDxjuk")
+    company_urls = [
+        "".join(["https://gaishishukatsu.com", link["href"]]) for link in company_links
+    ]
+
+    logging.info(" Parsing information about companies in the chosen industry...")
+    all_company_info = [parse_company_info(url, browser) for url in tqdm(company_urls)]
+
+    logging.info(" Close web browser")
+    browser.close()
+
+    output_file_path = Path(output_filename)
+    if not output_file_path.parent.exists():
+        output_file_path.parent.mkdir(parents=True)
+
+    logging.info(" Dump company information")
+    logging.info(f"     output filename: {output_filename}")
+
+    with output_file_path.open("w") as f:
+        f.write("\n".join(all_company_info))
+
+
+@main.command()
 @click.option(
     "--output_filename",
     default="event_info.json",
     show_default=True,
     help="Path to output file.",
 )
-def main(output_filename) -> None:
+def intern(output_filename) -> None:
     """Scrape job events from a website, https://gaishishukatsu.com/"""
     logging.basicConfig(level=logging.INFO)
 
@@ -90,7 +176,7 @@ def main(output_filename) -> None:
 
     output_file_path = Path(output_filename)
     if not output_file_path.parent.exists():
-        output_file_path.mkdir(parents=True)
+        output_file_path.parent.mkdir(parents=True)
 
     # Compare latest event information with existing one
     all_event_info_new = all_event_info
