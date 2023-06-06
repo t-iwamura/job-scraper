@@ -5,6 +5,7 @@ from pathlib import Path
 
 import click
 from bs4 import BeautifulSoup
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -19,7 +20,7 @@ INDUSTRY_LIST = [
     "consultant",
     "gaishi_finance",
     "nikkei_finance",
-    "gaishi_maker",
+    "gaishi_maker_service",
     "trading",
     "civil_servant",
     "it_service",
@@ -97,8 +98,17 @@ def company(industry, output_filename, login, gui) -> None:
     browser.execute_script("arguments[0].click();", industry_checkbox)
     time.sleep(1)
 
+    # Display all the companies in the given industry
+    while True:
+        try:
+            show_more_button = browser.find_element(By.CLASS_NAME, "sc-gGuQiZ.fAXLLe")
+            browser.execute_script("arguments[0].click();", show_more_button)
+            time.sleep(1)
+        except NoSuchElementException:
+            break
+
     # Create a list of URLs about the found companies
-    soup = BeautifulSoup(browser.page_source, "html.parser")
+    soup = BeautifulSoup(browser.page_source, "lxml")
     company_links = []
     company_links += soup.find_all("a", class_="sc-biHcdI fydcZg")
     company_links += soup.find_all("a", class_="sc-hJFzDP fusNkn")
