@@ -28,7 +28,7 @@ INDUSTRY_LIST = [
     "media",
     "construction",
 ]
-INDUSTRY_IDX = {industry: i for i, industry in enumerate(INDUSTRY_LIST)}
+INDUSTRY_IDS = {industry: i for i, industry in enumerate(INDUSTRY_LIST)}
 
 
 @click.group()
@@ -90,7 +90,7 @@ def company(industry, output_filename, login, gui) -> None:
     # Choose companies in the given industry
     industry_checkbox_block = browser.find_elements(
         By.CSS_SELECTOR, "div.sc-EhVdS.louMgR"
-    )[INDUSTRY_IDX[industry]]
+    )[INDUSTRY_IDS[industry]]
     industry_checkbox = industry_checkbox_block.find_element(By.TAG_NAME, "input")
     _ = WebDriverWait(browser, MAX_WAIT_SEC).until(
         expected_conditions.element_to_be_clickable(industry_checkbox)
@@ -179,7 +179,7 @@ def intern(output_filename, gui) -> None:
         "quants",
         "editor",
     ]
-    job_type_idx = {job_type: (7, i) for i, job_type in enumerate(job_type_list, 1)}
+    job_type_ids = {job_type: (7, i) for i, job_type in enumerate(job_type_list, 1)}
     event_type_list = [
         "selection",
         "internship",
@@ -187,7 +187,7 @@ def intern(output_filename, gui) -> None:
         "union",
         "gaishi_shukatsu",
     ]
-    event_type_idx = {
+    event_type_ids = {
         event_type: (9, i) for i, event_type in enumerate(event_type_list, 1)
     }
 
@@ -196,7 +196,7 @@ def intern(output_filename, gui) -> None:
     logging.info(f"     Chosen job type  : {job_type}")
 
     filter_by_job_type = browser.find_element(
-        By.XPATH, xpath_pattern.format(*job_type_idx[job_type])
+        By.XPATH, xpath_pattern.format(*job_type_ids[job_type])
     )
     browser.execute_script("arguments[0].click();", filter_by_job_type)
     time.sleep(3)
@@ -205,7 +205,7 @@ def intern(output_filename, gui) -> None:
     logging.info(f"     Chosen event type: {event_type}")
 
     filter_by_event_type = browser.find_element(
-        By.XPATH, xpath_pattern.format(*event_type_idx[event_type])
+        By.XPATH, xpath_pattern.format(*event_type_ids[event_type])
     )
     browser.execute_script("arguments[0].click();", filter_by_event_type)
     time.sleep(3)
