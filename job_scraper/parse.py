@@ -40,12 +40,15 @@ def parse_company_info(company_url: str, browser: WebDriver) -> str:
     soup = BeautifulSoup(browser.page_source, "lxml")
     try:
         company_name = soup.find("h1", class_="company-header-title-companyName").text
+        company_name = company_name.replace(",", "")
     except AttributeError:
-        return company_url
+        company_info_list = [company_url] + ["-"] * 3
+        return ",".join(company_info_list)
 
     company_data_header = soup.find("h2", id="company-data")
     if company_data_header is None:
-        return company_name
+        company_info_list = [company_name] + ["-"] * 3
+        return ",".join(company_info_list)
 
     company_data_table = company_data_header.find_next()
     company_capital = parse_table_element(
