@@ -119,7 +119,8 @@ def company(industry, output_filename, login, gui) -> None:
     ]
 
     logging.info(" Parsing information about companies in the chosen industry...")
-    all_company_info = [parse_company_info(url, browser) for url in tqdm(company_urls)]
+    all_company_info = ["Company Name,Employee Number,Capital,Official Website"]
+    all_company_info += [parse_company_info(url, browser) for url in tqdm(company_urls)]
 
     logging.info(" Close web browser")
     browser.close()
