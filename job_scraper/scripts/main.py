@@ -33,6 +33,7 @@ INDUSTRY_IDS = {industry: i for i, industry in enumerate(INDUSTRY_LIST)}
 
 @click.group()
 def main() -> None:
+    """Python package for scraping job events"""
     pass
 
 
