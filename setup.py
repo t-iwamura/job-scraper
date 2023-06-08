@@ -23,6 +23,7 @@ setup(
     install_requires=[
         "beautifulsoup4",
         "selenium",
+        "lxml",
         "tqdm",
         "click",
     ],
