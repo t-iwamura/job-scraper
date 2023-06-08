@@ -29,13 +29,50 @@ $ pip install .
 You can display helpfull messages by executing the following command.
 
 ```shell
-Usage: job-scraper [OPTIONS]
+$ job-scraper --help
+Usage: job-scraper [OPTIONS] COMMAND [ARGS]...
 
-  Scrape job events from a website, https://gaishishukatsu.com/
+  Python package for scraping job events
 
 Options:
-  --output_filename TEXT  Path to output file.  [default: event_info.json]
-  --help                  Show this message and exit.
+  --help  Show this message and exit.
+
+Commands:
+  company  Scrape company information from a website,...
+  intern   Scrape job events from a website, https://gaishishukatsu.com/
+```
+
+You can also display help for each subcommand.
+
+```shell
+$ job-scraper company --help
+```
+
+### Scrape company list
+
+By `job-scraper company` command, you can scrape information about all the companies in a industry from [外資就活ドットコム](https://gaishishukatsu.com/company). You need to pass `--industry` option to the command. Available values can be checked from help as below.
+
+```shell
+$ job-scraper company --help
+Usage: job-scraper company [OPTIONS]
+
+  Scrape company information from a website, https://gaishishukatsu.com/
+
+Options:
+  --industry [consultant|gaishi_finance|nikkei_finance|gaishi_maker_service|trading|civil_servant|it_service|nikkei_maker|media|construction]
+                                  Industry which you are interested in.
+                                  [required]
+  --output_filename TEXT          Path to output file.  [default:
+                                  company_info.csv]
+  --login / --no-login            Whether to login to the website or not.
+  --gui / --no-gui                Whether to display a browser or not.
+  --help                          Show this message and exit.
+```
+
+For example, you can parse information about all the consulting companies.
+
+```shell
+$ job-scraper company --industry consultant
 ```
 
 ### Scrape internship list
@@ -43,7 +80,7 @@ Options:
 Run the following command.
 
 ```shell
-$ job-scraper
+$ job-scraper intern
 ```
 
-If the command execution end, you'll see a file in your current directory. You can change the location of a output file.
+If the command execution end, you'll see a output file in your current directory. You can change the location of it.

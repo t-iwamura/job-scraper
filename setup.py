@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="job_scraper",
-    version="1.1.1",
+    version="1.2.0",
     author="Taiki Iwamura",
     author_email="takki.0206@gmail.com",
     description=("Python package for scraping job events"),
@@ -23,6 +23,7 @@ setup(
     install_requires=[
         "beautifulsoup4",
         "selenium",
+        "tqdm",
         "click",
     ],
     entry_points={
