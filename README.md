@@ -19,6 +19,7 @@ Here, I suppose you are using WSL(Windows Subsystem for Linux).
 1. Install Google Chrome for Linux on WSL.
 
 ```shell
+$ sudo apt update
 $ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 $ sudo dpkg -i google-chrome-stable_current_amd64.deb
 # If dependency error is raised, run the following command
@@ -29,33 +30,12 @@ $ google-chrome-stable --version
 $ rm -f google-chrome-stable_current_amd64.deb
 ```
 
-2. Install `ChromeDriver` on WSL.
-```shell
-$ chrome_driver=$(curl "https://chromedriver.storage.googleapis.com/LATEST_RELEASE") && echo "$chrome_driver"
-$ curl -Lo chromedriver_linux64.zip "https://chromedriver.storage.googleapis.com/${chrome_driver}/chromedriver_linux64.zip"
-$ unzip chromedriver_linux64.zip
-
-# Place binary in appropriate place
-$ sudo mv chromedriver /usr/local/bin
-$ chmod +x /usr/local/bin/chromedriver
-$ sudo chown root:root /usr/local/bin/chromedriver
-$ rm -f *chromedriver*
-```
-
-3. Install a Windows X-server, e.g. `VcXsrv`.
-
-### Mac
-
-If you use Mac, you can install it by Homebrew.
-
-```shell
-$ brew install chromedriver
-```
+2. Install a Windows X-server, e.g. `VcXsrv`.
 
 ## Installation
 
 ```shell
-$ cd <job-scraper's root>
+$ cd job-scraper
 $ pip install .
 ```
 
