@@ -1,17 +1,17 @@
 # job-scraper
-Python package for scraping job events
+Python package for scraping information about Japanese companies.
 
 ## Overview
 
-This python package scrapes all the internships for an IT engineer from [外資就活ドットコム](https://gaishishukatsu.com/recruiting_info). Currently, only this website is supported, but I'll improve this package so that information in various websites can be scraped.
+This python package scrapes information about companies (e.g. available internship and basic information about companies) posted on [外資就活ドットコム](https://gaishishukatsu.com/). Currently, only this website is supported.
 
 ## Motivation
 
-I'm searching for a job. However, I'm a Ph.D student and have to do research too. I don't want to spend much time on job hunting. In order to decrease time for job hunting, I have decided to automate job events check by web scraping.
+I'm searching for a job. However, I'm a Ph.D student and have to do research too. I don't have much time for job hunting. In order to find companies good for me efficiently, I have decided to automate information gathering by web scraping.
 
 ## Prerequisites
 
-This package needs WebDriver for Google Chrome.
+This package needs Google Chrome.
 
 ### Windows
 
@@ -19,6 +19,7 @@ Here, I suppose you are using WSL(Windows Subsystem for Linux).
 1. Install Google Chrome for Linux on WSL.
 
 ```shell
+$ sudo apt update
 $ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 $ sudo dpkg -i google-chrome-stable_current_amd64.deb
 # If dependency error is raised, run the following command
@@ -29,33 +30,12 @@ $ google-chrome-stable --version
 $ rm -f google-chrome-stable_current_amd64.deb
 ```
 
-2. Install `ChromeDriver` on WSL.
-```shell
-$ chrome_driver=$(curl "https://chromedriver.storage.googleapis.com/LATEST_RELEASE") && echo "$chrome_driver"
-$ curl -Lo chromedriver_linux64.zip "https://chromedriver.storage.googleapis.com/${chrome_driver}/chromedriver_linux64.zip"
-$ unzip chromedriver_linux64.zip
-
-# Place binary in appropriate place
-$ sudo mv chromedriver /usr/local/bin
-$ chmod +x /usr/local/bin/chromedriver
-$ sudo chown root:root /usr/local/bin/chromedriver
-$ rm -f *chromedriver*
-```
-
-3. Install a Windows X-server, e.g. `VcXsrv`.
-
-### Mac
-
-If you use Mac, you can install it by Homebrew.
-
-```shell
-$ brew install chromedriver
-```
+2. Install a Windows X-server, e.g. `VcXsrv`.
 
 ## Installation
 
 ```shell
-$ cd <job-scraper's root>
+$ cd job-scraper
 $ pip install .
 ```
 
@@ -67,7 +47,7 @@ You can display helpfull messages by executing the following command.
 $ job-scraper --help
 Usage: job-scraper [OPTIONS] COMMAND [ARGS]...
 
-  Python package for scraping job events
+  Python package for scraping information about Japanese companies
 
 Options:
   --help  Show this message and exit.
@@ -85,7 +65,7 @@ $ job-scraper company --help
 
 ### Scrape company list
 
-By `job-scraper company` command, you can scrape information about all the companies in a industry from [外資就活ドットコム](https://gaishishukatsu.com/company). You need to pass `--industry` option to the command. Available values can be checked from help as below.
+By `job-scraper company` command, you can scrape information about companies in a specified industry posted on [外資就活ドットコム](https://gaishishukatsu.com/company). You need to pass `--industry` option to the command. Available values can be viewed from help as below.
 
 ```shell
 $ job-scraper company --help
@@ -118,4 +98,4 @@ Run the following command.
 $ job-scraper intern
 ```
 
-If the command execution end, you'll see a output file in your current directory. You can change the location of it.
+If the command execution ends, you'll see an output file in your current directory. You can change the location of it.
