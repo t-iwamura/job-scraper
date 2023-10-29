@@ -1,17 +1,17 @@
 # job-scraper
-Python package for scraping job events
+Python package for scraping information about Japanese companies.
 
 ## Overview
 
-This python package scrapes all the internships for an IT engineer from [外資就活ドットコム](https://gaishishukatsu.com/recruiting_info). Currently, only this website is supported, but I'll improve this package so that information in various websites can be scraped.
+This python package scrapes information about companies (e.g. available internship and basic information about companies) posted on [外資就活ドットコム](https://gaishishukatsu.com/). Currently, only this website is supported.
 
 ## Motivation
 
-I'm searching for a job. However, I'm a Ph.D student and have to do research too. I don't want to spend much time on job hunting. In order to decrease time for job hunting, I have decided to automate job events check by web scraping.
+I'm searching for a job. However, I'm a Ph.D student and have to do research too. I don't have much time for job hunting. In order to find companies good for me efficiently, I have decided to automate information gathering by web scraping.
 
 ## Prerequisites
 
-This package needs WebDriver for Google Chrome.
+This package needs Google Chrome.
 
 ### Windows
 
@@ -47,7 +47,7 @@ You can display helpfull messages by executing the following command.
 $ job-scraper --help
 Usage: job-scraper [OPTIONS] COMMAND [ARGS]...
 
-  Python package for scraping job events
+  Python package for scraping information about Japanese companies
 
 Options:
   --help  Show this message and exit.
@@ -65,7 +65,7 @@ $ job-scraper company --help
 
 ### Scrape company list
 
-By `job-scraper company` command, you can scrape information about all the companies in a industry from [外資就活ドットコム](https://gaishishukatsu.com/company). You need to pass `--industry` option to the command. Available values can be checked from help as below.
+By `job-scraper company` command, you can scrape information about companies in a specified industry posted on [外資就活ドットコム](https://gaishishukatsu.com/company). You need to pass `--industry` option to the command. Available values can be viewed from help as below.
 
 ```shell
 $ job-scraper company --help
@@ -98,4 +98,4 @@ Run the following command.
 $ job-scraper intern
 ```
 
-If the command execution end, you'll see a output file in your current directory. You can change the location of it.
+If the command execution ends, you'll see an output file in your current directory. You can change the location of it.
