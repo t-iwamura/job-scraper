@@ -22,7 +22,7 @@ setup(
     python_requires=">= 3.8",
     install_requires=[
         "beautifulsoup4",
-        "selenium",
+        "selenium>=4.14",
         "lxml",
         "tqdm",
         "click",
