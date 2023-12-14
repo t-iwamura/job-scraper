@@ -1,9 +1,10 @@
 # job-scraper
-Python package for scraping information about Japanese companies.
+
+CLI application for scraping information about Japanese companies.
 
 ## Overview
 
-This python package scrapes information about companies (e.g. available internship and basic information about companies) posted on [外資就活ドットコム](https://gaishishukatsu.com/). Currently, only this website is supported.
+This app scrapes information about companies (e.g. available internship and basic information about companies) posted on [外資就活ドットコム](https://gaishishukatsu.com/). Currently, only this website is supported.
 
 ## Motivation
 
@@ -11,11 +12,12 @@ I'm searching for a job. However, I'm a Ph.D student and have to do research too
 
 ## Prerequisites
 
-This package needs Google Chrome.
+This app needs Google Chrome.
 
 ### Windows
 
 Here, I suppose you are using WSL(Windows Subsystem for Linux).
+
 1. Install Google Chrome for Linux on WSL.
 
 ```shell
